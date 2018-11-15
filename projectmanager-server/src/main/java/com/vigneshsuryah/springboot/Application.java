@@ -36,7 +36,7 @@ public class Application extends SpringBootServletInitializer {
 		return registrationBean;
 	}
 	
-	@Bean(name = "org.dozer.Mapper")
+	@Bean
 	public DozerBeanMapper dozerMapper() {
 		List<String> mappingFiles = Arrays.asList("mapper-dozer.xml");
 		DozerBeanMapper dozerBean = new DozerBeanMapper();
