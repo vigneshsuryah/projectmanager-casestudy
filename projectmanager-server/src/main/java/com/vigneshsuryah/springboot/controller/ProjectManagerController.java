@@ -3,25 +3,20 @@ package com.vigneshsuryah.springboot.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vigneshsuryah.springboot.entity.Task;
-import com.vigneshsuryah.springboot.service.TaskManagerService;
+import com.vigneshsuryah.springboot.bo.TaskVO;
+import com.vigneshsuryah.springboot.service.ProjectManagerService;
 
 @RestController
-public class TaskManagerController {
+public class ProjectManagerController {
 	
 	@Autowired
-	private TaskManagerService taskManagerService;
+	private ProjectManagerService projectManagerService;
 	
-	public void setTaskManagerService(TaskManagerService taskManagerService) {
-		this.taskManagerService = taskManagerService;
+	public void setprojectManagerService(ProjectManagerService projectManagerService) {
+		this.projectManagerService = projectManagerService;
 	}
 	
 	@GetMapping("/hometest")
@@ -30,21 +25,21 @@ public class TaskManagerController {
 	}
 	
 	@GetMapping("/api/tasks")
-	public List<Task> getTasks() {
-		List<Task> tasks = taskManagerService.retriveTasks();
+	public List<TaskVO> getTasks() {
+		List<TaskVO> tasks = projectManagerService.retriveTasks();
 		return tasks;
 	}
 	
-	@GetMapping("/api/tasks/{taskId}")
+	/*@GetMapping("/api/tasks/{taskId}")
 	public Task getTask(@PathVariable(name="taskId") Long taskId) {
-		Task task = taskManagerService.getTask(taskId);
+		Task task = projectManagerService.getTask(taskId);
 		return task;
 	}
 	
 	@PostMapping(path = "/api/tasks", consumes = "application/json", produces = "application/json")
 	public boolean saveTask(@RequestBody Task task) {
 		try {
-			taskManagerService.updateTask(task);
+			projectManagerService.updateTask(task);
 		}catch(Exception e)
 		{
 			System.out.println("Save Task Failed : " + e.getMessage());
@@ -56,9 +51,9 @@ public class TaskManagerController {
 	@PutMapping("/api/tasks/{taskId}")
 	public boolean updateTask(@RequestBody Task task, @PathVariable(name="taskId") Long taskId) {
 		try {
-			Task taskRetrived = taskManagerService.getTask(taskId);
+			Task taskRetrived = projectManagerService.getTask(taskId);
 			if(taskRetrived != null) {
-				taskManagerService.updateTask(task);
+				projectManagerService.updateTask(task);
 			}else {
 				System.out.println("updateTask: No task available in the task id : " + taskId);
 				return false;
@@ -74,10 +69,10 @@ public class TaskManagerController {
 	@DeleteMapping("/api/tasks/{taskId}")
 	public boolean deleteTask(@PathVariable(name="taskId") Long taskId) {
 		try {
-			Task taskRetrived = taskManagerService.getTask(taskId);
+			Task taskRetrived = projectManagerService.getTask(taskId);
 			if(taskRetrived != null) {
 				taskRetrived.setStatus("I");
-				taskManagerService.updateTask(taskRetrived);
+				projectManagerService.updateTask(taskRetrived);
 			}else {
 				System.out.println("deleteTask: No task available in the task id : " + taskId);
 				return false;
@@ -88,5 +83,5 @@ public class TaskManagerController {
 			return false;
 		}
 		return true;
-	}
+	}*/
 }

@@ -1,5 +1,9 @@
 package com.vigneshsuryah.springboot;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.dozer.DozerBeanMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -30,6 +34,14 @@ public class Application extends SpringBootServletInitializer {
 		registrationBean.addUrlPatterns("/*");
 
 		return registrationBean;
+	}
+	
+	@Bean(name = "org.dozer.Mapper")
+	public DozerBeanMapper dozerMapper() {
+		List<String> mappingFiles = Arrays.asList("mapper-dozer.xml");
+		DozerBeanMapper dozerBean = new DozerBeanMapper();
+		dozerBean.setMappingFiles(mappingFiles);
+		return dozerBean;
 	} 
 	
 }
