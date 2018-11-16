@@ -8,6 +8,7 @@ public class ProjectVO {
 	private String priority;
 	private String status;
 	private String managerId;
+	private Long noOfTasks;
 
 	public Long getProjectId() {
 		return projectId;
@@ -63,5 +64,13 @@ public class ProjectVO {
 
 	public void setManagerId(String managerId) {
 		this.managerId = managerId;
+	}
+
+	public Long getNoOfTasks() {
+		return noOfTasks;
+	}
+
+	public void setNoOfTasks(Long noOfTasks) {
+		this.noOfTasks = noOfTasks;
 	}
 }
