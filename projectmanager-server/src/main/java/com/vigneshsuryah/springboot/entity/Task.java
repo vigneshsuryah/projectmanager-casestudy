@@ -35,7 +35,7 @@ public class Task {
 	@Column(name = "status")
 	private String status;
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "parent_task_id", insertable = true, updatable = true)
 	private ParentTask parentTask;
 
@@ -47,7 +47,7 @@ public class Task {
 		this.parentTask = parentTask;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "employee_id", insertable = true, updatable = true)
 	private User employeeDetails;
 
@@ -59,7 +59,7 @@ public class Task {
 		this.employeeDetails = employeeDetails;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "project_id", insertable = true, updatable = true)
 	private Project projectDetails;
 

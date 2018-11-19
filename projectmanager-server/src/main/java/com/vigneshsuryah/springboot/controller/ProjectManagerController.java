@@ -30,11 +30,26 @@ public class ProjectManagerController {
 		return "Project Manager App - Creator: Mani, Vignesh Suryah";
 	}
 	
+	/***********************************************************************************************************************************/
+	
 	@GetMapping("/api/tasks")
 	public List<TaskVO> getTasks() {
 		List<TaskVO> tasks = projectManagerService.retriveTasks();
 		return tasks;
 	}
+	
+	@PostMapping(path = "/api/tasks", consumes = "application/json", produces = "application/json")
+	public boolean updateTask(@RequestBody TaskVO task) {
+		try {
+			projectManagerService.updateTask(task); 
+		}catch(Exception e)
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	/***********************************************************************************************************************************/
 	
 	@GetMapping("/api/parenttasks")
 	public List<ParentTaskVO> getAllParentTasks() {
@@ -59,6 +74,8 @@ public class ProjectManagerController {
 		return true;
 	}
 	
+	/***********************************************************************************************************************************/
+	
 	@GetMapping("/api/projects")
 	public List<ProjectVO> getProjects() {
 		List<ProjectVO> projects = projectManagerService.retriveProjects();
@@ -75,6 +92,8 @@ public class ProjectManagerController {
 		}
 		return true;
 	}
+	
+	/***********************************************************************************************************************************/
 	
 	@GetMapping("/api/users")
 	public List<UserVO> getUsers() {
@@ -93,58 +112,6 @@ public class ProjectManagerController {
 		return true;
 	}
 	
-	/*@GetMapping("/api/tasks/{taskId}")
-	public Task getTask(@PathVariable(name="taskId") Long taskId) {
-		Task task = projectManagerService.getTask(taskId);
-		return task;
-	}
+	/***********************************************************************************************************************************/
 	
-	@PostMapping(path = "/api/tasks", consumes = "application/json", produces = "application/json")
-	public boolean saveTask(@RequestBody Task task) {
-		try {
-			projectManagerService.updateTask(task);
-		}catch(Exception e)
-		{
-			System.out.println("Save Task Failed : " + e.getMessage());
-			return false;
-		}
-		return true;
-	}
-	
-	@PutMapping("/api/tasks/{taskId}")
-	public boolean updateTask(@RequestBody Task task, @PathVariable(name="taskId") Long taskId) {
-		try {
-			Task taskRetrived = projectManagerService.getTask(taskId);
-			if(taskRetrived != null) {
-				projectManagerService.updateTask(task);
-			}else {
-				System.out.println("updateTask: No task available in the task id : " + taskId);
-				return false;
-			}
-		}catch(Exception e)
-		{
-			System.out.println("Update Task Failed : " + e.getMessage());
-			return false;
-		}
-		return true;
-	}
-	
-	@DeleteMapping("/api/tasks/{taskId}")
-	public boolean deleteTask(@PathVariable(name="taskId") Long taskId) {
-		try {
-			Task taskRetrived = projectManagerService.getTask(taskId);
-			if(taskRetrived != null) {
-				taskRetrived.setStatus("I");
-				projectManagerService.updateTask(taskRetrived);
-			}else {
-				System.out.println("deleteTask: No task available in the task id : " + taskId);
-				return false;
-			}
-		}catch(Exception e)
-		{
-			System.out.println("Delete Task Failed : " + e.getMessage());
-			return false;
-		}
-		return true;
-	}*/
 }

@@ -63,11 +63,11 @@ insert into users (employee_id, first_name, last_name, status) values('474325','
 insert into users (employee_id, first_name, last_name, status) values('485083','Gowthaman','A','A');
 insert into users (employee_id, first_name, last_name, status) values('456206','Thangavel','S','A');
 
-insert into projects (project_name, start_date, end_date, priority, status, manager_id) values('SGFO','11/20/2018','11/30/2018','15','A','397538');
-insert into projects (project_name, start_date, end_date, priority, status, manager_id) values('MAC Appointment','11/21/2018','11/29/2018','17','A','287431');
-insert into projects (project_name, start_date, end_date, priority, status, manager_id) values('MWP','11/19/2018','11/29/2018','20','A','463657');
-insert into projects (project_name, start_date, end_date, priority, status, manager_id) values('2FA','11/22/2018','11/27/2018','1','A','313255');
-insert into projects (project_name, start_date, end_date, priority, status, manager_id) values('Batch','11/23/2018','11/25/2018','9','A','456206');
+insert into projects (project_name, start_date, end_date, priority, status, manager_id) values('SGFO','11/20/2018','11/30/2018','15','In-Progress','397538');
+insert into projects (project_name, start_date, end_date, priority, status, manager_id) values('MAC Appointment','11/21/2018','11/29/2018','17','In-Progress','287431');
+insert into projects (project_name, start_date, end_date, priority, status, manager_id) values('MWP','11/19/2018','11/29/2018','20','In-Progress','463657');
+insert into projects (project_name, start_date, end_date, priority, status, manager_id) values('2FA','11/22/2018','11/27/2018','1','In-Progress','313255');
+insert into projects (project_name, start_date, end_date, priority, status, manager_id) values('Batch','11/23/2018','11/25/2018','9','In-Progress','456206');
 
 insert into parent_tasks (parent_task_name, project_id) values('pt create screens',1);
 insert into parent_tasks (parent_task_name, project_id) values('pt design database scripts',2);
@@ -97,5 +97,4 @@ select * from parent_tasks;
 select * from tasks;
 
 
-
-
+update projects set status = 'In-Progress';

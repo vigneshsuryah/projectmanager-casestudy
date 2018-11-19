@@ -20,6 +20,13 @@ export class AppComponent implements OnInit{
     this.appService.updatetask = null;
   }
 
+  updateViewProject(){
+    this.appService.updatetask = null;
+    jQuery(".navig").removeClass('active-nav');
+    jQuery("#update-view-project").addClass('active-nav');
+    this.router.navigate(['/updateviewproject']);
+  }
+
   addTask(){
     this.appService.updatetask = null;
     jQuery(".navig").removeClass('active-nav');

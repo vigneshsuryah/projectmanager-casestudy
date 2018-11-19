@@ -10,6 +10,7 @@ import com.vigneshsuryah.springboot.bo.UserVO;
 public interface ProjectManagerService {
 	
 	public List<TaskVO> retriveTasks();
+	public void updateTask(TaskVO task);
 	
 	public List<ParentTaskVO> retriveParentTasks();
 	public List<ParentTaskVO> retriveParentTasksForProjectId(String projectId);
@@ -20,9 +21,5 @@ public interface ProjectManagerService {
 	
 	public List<UserVO> retriveUsers();
 	public void updateUser(UserVO user);
-	
-	/*public void updateTask(Task task);
-	
-	public Task getTask(Long taskId);*/
 
 }

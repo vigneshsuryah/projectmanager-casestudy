@@ -17,6 +17,30 @@ export class appService {
 
     } 
 
+    getUsers(): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.get(Config.API+ "api/users", options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
+    getProjects(): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.get(Config.API+ "api/projects", options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
+    updateProjects(inputParam : {}): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(Config.API+ "api/projects", inputParam, options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
     getTasks(): Observable<string[]> {
         let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
         let options = new RequestOptions({ headers: headers });

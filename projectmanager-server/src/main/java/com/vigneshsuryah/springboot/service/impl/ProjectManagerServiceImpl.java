@@ -39,13 +39,7 @@ public class ProjectManagerServiceImpl implements ProjectManagerService{
 	@Autowired
 	private Mapper dozerMapper;
 	
-	public void setProjectManagerRepository(ProjectManagerRepository projectManagerRepository) {
-		this.projectManagerRepository = projectManagerRepository;
-	}
-	
-	public void setTaskManagerRepository(TaskManagerRepository taskManagerRepository) {
-		this.taskManagerRepository = taskManagerRepository;
-	}
+	/***********************************************************************************************************************************/
 	
 	public List<TaskVO> retriveTasks(){
 		List<TaskVO> taskToBeReturned = new ArrayList<TaskVO>();
@@ -55,6 +49,12 @@ public class ProjectManagerServiceImpl implements ProjectManagerService{
 		}
 		return taskToBeReturned;
 	}
+	
+	public void updateTask(TaskVO task) {
+		taskManagerRepository.save(dozerMapper.map(task, Task.class));
+	}
+	
+	/***********************************************************************************************************************************/
 	
 	public List<ParentTaskVO> retriveParentTasks(){
 		List<ParentTaskVO> taskToBeReturned = new ArrayList<ParentTaskVO>();
@@ -78,6 +78,8 @@ public class ProjectManagerServiceImpl implements ProjectManagerService{
 		parentTaskManagerRepository.save(dozerMapper.map(parentTask, ParentTask.class));
 	}
 	
+	/***********************************************************************************************************************************/
+	
 	public List<ProjectVO> retriveProjects(){
 		List<ProjectVO> projectToBeReturned = new ArrayList<ProjectVO>();
 		List<Project> projectsRetrived = projectManagerRepository.findAll();
@@ -93,6 +95,8 @@ public class ProjectManagerServiceImpl implements ProjectManagerService{
 		projectManagerRepository.save(dozerMapper.map(project, Project.class));
 	}
 	
+	/***********************************************************************************************************************************/
+	
 	public List<UserVO> retriveUsers(){
 		List<UserVO> userToBeReturned = new ArrayList<UserVO>();
 		List<User> usersRetrived = userManagerRepository.findAll();
@@ -106,13 +110,6 @@ public class ProjectManagerServiceImpl implements ProjectManagerService{
 		User userStore = dozerMapper.map(user, User.class);
 		userManagerRepository.save(userStore);
 	}
-
-	/*public void updateTask(Task task) {
-		projectManagerRepository.save(task);
-	}
 	
-	public Task getTask(Long taskId) {
-		Optional<Task> optTask = projectManagerRepository.findById(taskId);
-		return optTask.get();
-	}*/
+	/***********************************************************************************************************************************/
 }
