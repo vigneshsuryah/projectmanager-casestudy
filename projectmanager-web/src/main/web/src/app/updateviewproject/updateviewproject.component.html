@@ -6,6 +6,7 @@
                     <label for="projectName" class="col-sm-2 col-form-label">Project</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="projectName" maxlength="50" required name="projectName" #projectName="ngModel" [(ngModel)]="project.projectName" placeholder="Enter the Project Name">
+                        <input type="hidden" class="form-control" id="projectId" name="projectId" #projectId="ngModel" [(ngModel)]="project.projectId">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -65,6 +66,7 @@
                     <label for="managerName" class="col-sm-2 col-form-label">Manager</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="managerName" readonly name="managerName" #managerName="ngModel" [(ngModel)]="project.managerName" placeholder="Select Manager for Project">
+                        <input type="hidden" class="form-control" id="managerId" name="managerId" #managerId="ngModel" [(ngModel)]="project.managerId">
                     </div>
                     <button type="button" class="col-sm-2 btn btn-info" (click)=searchUserPopup()>Search</button>
                 </div>
@@ -78,12 +80,14 @@
                             </div>
                         <div class="input-group">
                             <div *ngIf="flow === 'addproject'">
-                                    <button type="submit" class="btn btn-success mx-3" [disabled]="(project.projectName === '' || fromDate === null || toDate === null)">Add Project</button>
-                                    <button type="button" class="btn btn-info mx-5" (click)=resetButton()>Reset</button>
+                                <button type="submit" *ngIf="checkBoxSelect" class="btn btn-success mx-3" [disabled]="(project.projectName === '' || project.managerId === '' || fromDate === null || toDate === null)">Add Project</button>
+                                <button type="submit" *ngIf="!checkBoxSelect" class="btn btn-success mx-3" [disabled]="(project.projectName === '' || project.managerId === '')">Add Project</button>
+                                <button type="button" class="btn btn-info mx-5" (click)=resetButton()>Reset</button>
                             </div>
                             <div *ngIf="flow === 'updateproject'">
-                                    <button type="submit" class="btn btn-success mx-3" [disabled]="(project.projectName === '' || fromDate === null || toDate === null)">Update Project</button>
-                                    <button type="button" class="btn btn-info mx-5" (click)=viewTaskScreen()>Cancel</button>
+                                <button type="submit" *ngIf="checkBoxSelect" class="btn btn-success mx-3" [disabled]="(project.projectName === '' || project.managerId === '' || fromDate === null || toDate === null)">Update Project</button>
+                                <button type="submit" *ngIf="!checkBoxSelect" class="btn btn-success mx-3" [disabled]="(project.projectName === '' || project.managerId === '')">Update Project</button>
+                                <button type="button" class="btn btn-info mx-5" (click)=resetButton()>Reset</button>
                             </div>
                         </div>
                     </div>
@@ -181,6 +185,32 @@
       </div>
     </div>
   </div>
+
+<button type="button" id="managerSelectOpener" class="btn btn-primary" [hidden]="true" data-toggle="modal" data-target="#managerSelect">
+</button>
+
+<!-- The Modal -->
+<div class="modal fade" role="dialog" id="managerSelect" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Select Manager for the Project</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <input id="managerSelectId" type="text" class="form-control" name="managerSelectId" [ngbTypeahead]="managerEmployeeSearch" [(ngModel)]="project.selectedManagerName"
+            (focus)="focus$.next($event.target.value)" (click)="click$.next($event.target.value)" [resultFormatter]="formatter" 
+                (selectItem)="selectedManagerItem($event)" (keydown)=clearManagerItem($event) #instance="ngbTypeahead" placeholder="Select a Manager"/>
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Okay</button>
+        </div>
+        </div>
+    </div>
+    </div>
 
 <div [hidden]="!screenLoader" class="text-align-center"> 
 	<div class="modal-backdropP"></div>

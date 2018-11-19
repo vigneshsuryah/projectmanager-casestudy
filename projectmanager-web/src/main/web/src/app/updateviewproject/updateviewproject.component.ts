@@ -42,6 +42,7 @@ export class UpdateViewProjectComponent implements OnInit, OnDestroy {
     this.calendarToday = calendar;
     
     this.project = {
+      "projectId":"",
       "projectName":"",
       "priority":"15",
       "startDate":new Date(),
@@ -50,7 +51,7 @@ export class UpdateViewProjectComponent implements OnInit, OnDestroy {
       "managerId":""
     };
     this.fromDate = calendar.getToday();
-    this.toDate = calendar.getNext(calendar.getToday(), 'd', 10);
+    this.toDate = calendar.getNext(calendar.getToday(), 'd', 1);
 
     const currentDate = new Date();
     config.minDate = {year:currentDate.getFullYear(), month:currentDate.getMonth()+1, day: currentDate.getDate()};
@@ -60,6 +61,10 @@ export class UpdateViewProjectComponent implements OnInit, OnDestroy {
     this.screenLoader = true;
     appService.getUsers().subscribe((data :any) => {
       this.allUsersList = data;
+      for ( var i = 0; i < this.allUsersList.length; i++)
+      {
+        this.allUsersList[i].fullName = this.allUsersList[i].lastName + ", " + this.allUsersList[i].firstName;
+      }
       this.screenLoader = false;
     });
     appService.getProjects().subscribe((data :any) => {
@@ -71,7 +76,19 @@ export class UpdateViewProjectComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    
+    this.project = {
+      "projectId":"",
+      "projectName":"",
+      "priority":"15",
+      "startDate":new Date(),
+      "endDate":new Date(),
+      "managerName":"",
+      "managerId":""
+    };
+    this.fromDate = this.calendarToday.getToday();
+    this.toDate = this.calendarToday.getNext(this.calendarToday.getToday(), 'd', 1);
+    this.flow = 'addproject';
+    this.checkBoxSelect = false;
   }
 
   ngOnDestroy() {
@@ -80,9 +97,179 @@ export class UpdateViewProjectComponent implements OnInit, OnDestroy {
     this.allUsersList = [];  
   }
 
-  formatter = (value: any) => value.taskName || '';
+  formatter = (value: any) => (value.lastName + ", " + value.firstName) || '';
 
-  
+  managerEmployeeSearch = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
+    const inputFocus$ = this.focus$;
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map(term => (term === '' ? this.allUsersList : this.allUsersList.filter(v => v.fullName.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+    );
+  }
+
+  searchUserPopup(){
+    jQuery("#managerSelectOpener").click();
+  }
+
+  updateProject(project: any){
+    if(this.flow === 'addproject'){
+      var submitProject = {};
+      var startDate = "";
+      var endDate = "";
+      if(this.checkBoxSelect){
+        startDate = this.convertDateJsonToString(this.fromDate);
+        endDate = this.convertDateJsonToString(this.toDate);
+      }
+      submitProject = {
+        "projectName": project.projectName,
+        "startDate": startDate,
+        "endDate": endDate,
+        "priority": project.priority,
+        "status": "In-Progress",
+        "managerId": project.managerId
+      };
+      
+      this.screenLoader = true;
+      this.appService.updateProjects(submitProject).subscribe(
+        (data: any) => {
+          this.screenLoader = false;
+          if(data){
+            this.screenLoader = true;
+            this.appService.getProjects().subscribe((data :any) => {
+              this.allProjectMasterList = data;
+              this.allProjectList = data;
+              this.screenLoader = false;
+            });
+
+            this.modalHeading = 'Yeah :-)';
+            this.modalBody = 'Project Added Successfully';
+            document.getElementById("submitModalOpener").click();
+          }else{
+            this.modalHeading = 'Oh No !!!';
+            this.modalBody = 'Unexpected error occured during Add Task. Please try after some time.';
+            document.getElementById("submitModalOpener").click(); 
+          }
+        },
+        (err: any) => {
+            this.screenLoader = false;
+            this.modalHeading = 'Oh No !!!';
+            this.modalBody = 'Unexpected error occured during Add Task. Please try after some time.';
+            document.getElementById("submitModalOpener").click();        
+          }
+        );
+    }
+    if(this.flow === 'updateproject'){
+      var submitProject = {};
+      var startDate = "";
+      var endDate = "";
+      if(this.checkBoxSelect){
+        startDate = this.convertDateJsonToString(this.fromDate);
+        endDate = this.convertDateJsonToString(this.toDate);
+      }
+      submitProject = {
+        "projectId": project.projectId,
+        "projectName": project.projectName,
+        "startDate": startDate,
+        "endDate": endDate,
+        "priority": project.priority,
+        "status": "In-Progress",
+        "managerId": project.managerId
+      };
+      
+      this.screenLoader = true;
+      this.appService.updateProjects(submitProject).subscribe(
+        (data: any) => {
+          this.screenLoader = false;
+          if(data){
+            this.screenLoader = true;
+            this.appService.getProjects().subscribe((data :any) => {
+              this.allProjectMasterList = data;
+              this.allProjectList = data;
+              this.screenLoader = false;
+            });
+
+            this.modalHeading = 'Yeah :-)';
+            this.modalBody = 'Project Updated Successfully';
+            document.getElementById("submitModalOpener").click();
+          }else{
+            this.modalHeading = 'Oh No !!!';
+            this.modalBody = 'Unexpected error occured during Add Task. Please try after some time.';
+            document.getElementById("submitModalOpener").click(); 
+          }
+        },
+        (err: any) => {
+            this.screenLoader = false;
+            this.modalHeading = 'Oh No !!!';
+            this.modalBody = 'Unexpected error occured during Add Task. Please try after some time.';
+            document.getElementById("submitModalOpener").click();        
+          }
+        );
+    }
+  }
+
+  selectedManagerItem(event: NgbTypeaheadSelectItemEvent): void {
+    event.preventDefault();
+    var managerDetails = event.item;
+    this.project.managerName = managerDetails.fullName;
+    jQuery("#managerSelectId").val(this.project.managerName);
+    this.project.managerId = managerDetails.employeeId;
+  }
+
+  clearManagerItem(event){
+    if (event.key !== "Enter") {
+      this.project.managerName = "";
+      this.project.managerId = "";
+    }
+  }
+
+  editProject(project : any){
+    this.flow = 'updateproject';
+    var managerDetails : any = {};
+    for ( var i = 0; i < this.allUsersList.length; i++)
+    {
+      if(this.allUsersList[i].employeeId === project.managerId){
+        managerDetails = this.allUsersList[i];
+      }
+    }
+    var managerName = '';
+    var managerId = '';
+    if(managerDetails.status === 'A'){
+      managerName = managerDetails.lastName + ', ' + managerDetails.firstName;
+      managerId = managerDetails.employeeId; 
+    }
+    this.project = {
+      "projectId":project.projectId,
+      "projectName":project.projectName,
+      "priority":project.priority,
+      "startDate":new Date(),
+      "endDate":new Date(),
+      "managerName":managerName,
+      "managerId":managerId
+    };
+    if(project.startDate !== null && project.startDate !== undefined && project.startDate !== ''){
+      this.checkBoxSelect = true;
+      setTimeout(()=>{
+        this.fromDate = NgbDate.from(this.constructDateFromService(project.startDate));
+        this.toDate = NgbDate.from(this.constructDateFromService(project.endDate));
+      },100);
+    }else{
+      this.checkBoxSelect = false;
+      setTimeout(()=>{
+        this.fromDate = this.calendarToday.getToday();
+        this.toDate = this.calendarToday.getNext(this.calendarToday.getToday(), 'd', 1);
+      },100);
+    }
+    jQuery('html, body').animate({
+      scrollTop: jQuery("#update-view-project").offset().top
+    }, 1000);
+  }
+
+  constructDateFromService(datestring: string){
+    var res = datestring.split("/");
+    const date: NgbDateStruct = { day: parseInt(res[1]), month: parseInt(res[0]), year: parseInt(res[2]) };
+    return date;
+  }
 
   endProject(project: any){
     this.screenLoader = true;
@@ -109,6 +296,10 @@ export class UpdateViewProjectComponent implements OnInit, OnDestroy {
           });      
         }
       );
+  }
+
+  resetButton(){
+    this.ngOnInit();
   }
 
   /* sort functions*/
@@ -173,9 +364,9 @@ export class UpdateViewProjectComponent implements OnInit, OnDestroy {
     return date.equals(this.fromDate) || date.equals(this.toDate) || this.isInside(date) || this.isHovered(date);
   }
 
-  convertDateJsonToString(json: any){
+  convertDateJsonToString(json: any){ 
     if(json !== undefined && json !== null){
-      return json.day + '/' + json.month + '/' + json.year;
+      return json.month + '/' + json.day + '/' + json.year;
     }
   }
   /* Datepicker functions*/
