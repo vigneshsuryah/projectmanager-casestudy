@@ -18,19 +18,18 @@ import com.vigneshsuryah.springboot.service.ProjectManagerService;
 @RestController
 public class ProjectManagerController {
 	
-	@Autowired
 	private ProjectManagerService projectManagerService;
-	
-	public void setprojectManagerService(ProjectManagerService projectManagerService) {
+
+	@Autowired
+	public ProjectManagerController(ProjectManagerService projectManagerService) {
 		this.projectManagerService = projectManagerService;
 	}
-	
+
 	@GetMapping("/test")
-	public String test() {
+	public String testhome() {
 		return "Project Manager App - Creator: Mani, Vignesh Suryah";
 	}
 	
-	/***********************************************************************************************************************************/
 	
 	@GetMapping("/api/tasks")
 	public List<TaskVO> getTasks() {
@@ -49,7 +48,6 @@ public class ProjectManagerController {
 		return true;
 	}
 	
-	/***********************************************************************************************************************************/
 	
 	@GetMapping("/api/parenttasks")
 	public List<ParentTaskVO> getAllParentTasks() {
@@ -74,7 +72,6 @@ public class ProjectManagerController {
 		return true;
 	}
 	
-	/***********************************************************************************************************************************/
 	
 	@GetMapping("/api/projects")
 	public List<ProjectVO> getProjects() {
@@ -93,7 +90,6 @@ public class ProjectManagerController {
 		return true;
 	}
 	
-	/***********************************************************************************************************************************/
 	
 	@GetMapping("/api/users")
 	public List<UserVO> getUsers() {
@@ -112,6 +108,5 @@ public class ProjectManagerController {
 		return true;
 	}
 	
-	/***********************************************************************************************************************************/
 	
 }
