@@ -25,6 +25,11 @@ public class ProjectManagerController {
 		this.projectManagerService = projectManagerService;
 	}
 
+	@GetMapping("/home")
+	public String home() {
+		return "forward:/index.html";
+	}
+	
 	@GetMapping("/test")
 	public String testhome() {
 		return "Project Manager App - Creator: Mani, Vignesh Suryah";

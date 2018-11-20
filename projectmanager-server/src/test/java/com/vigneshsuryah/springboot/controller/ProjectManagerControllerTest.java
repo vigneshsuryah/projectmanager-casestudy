@@ -48,6 +48,12 @@ public class ProjectManagerControllerTest {
 	}
 	
 	@Test
+	public void testHome() {
+		String testhome = projectManagerController.home();
+		Assert.assertEquals(testhome, "forward:/index.html");
+	}
+	
+	@Test
 	public void testTest() {
 		String testhome = projectManagerController.testhome();
 		Assert.assertEquals(testhome, "Project Manager App - Creator: Mani, Vignesh Suryah");

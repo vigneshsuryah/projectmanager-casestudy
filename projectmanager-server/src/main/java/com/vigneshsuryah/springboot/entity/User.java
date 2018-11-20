@@ -26,13 +26,6 @@ public class User {
 		 
 	 }
 	 
-	 public User(String employeeId, String firstName, String lastName, String status) {
-		 this.employeeId = employeeId;
-		 this.firstName = firstName;
-		 this.lastName = lastName;
-		 this.status = status;
-	 }
-	 
 		public String getEmployeeId() {
 			return employeeId;
 		}

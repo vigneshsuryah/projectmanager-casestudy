@@ -109,6 +109,22 @@ public class ProjectManagerServiceImplTest {
 	}
 	
 	@Test
+	public void testRetriveParentTasksForProjectId() throws JsonParseException, JsonMappingException, IOException {
+		TypeReference<List<ParentTask>> mapType = new TypeReference<List<ParentTask>>() {};
+		List<ParentTask> allParentTasks = null;
+		String projectId = "3";
+		
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("parenttasks.json").getFile());
+		allParentTasks = mapper.readValue(file, mapType);
+		when(parentTaskManagerRepository.findAllParentTaskByProjectId(projectId)).thenReturn(allParentTasks);
+		List<ParentTaskVO> allParentTasksDetails = projectManagerServiceImpl.retriveParentTasksForProjectId(projectId);
+		Assert.assertNotNull(allParentTasksDetails);
+		verify(parentTaskManagerRepository,times(1)).findAllParentTaskByProjectId(projectId);
+		verifyNoMoreInteractions(parentTaskManagerRepository);
+	}
+	
+	@Test
 	public void testUpdateParentTask() throws JsonParseException, JsonMappingException, IOException {
 		ParentTask parent = null;
 		ClassLoader classLoader = getClass().getClassLoader();

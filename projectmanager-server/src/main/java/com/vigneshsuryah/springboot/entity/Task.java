@@ -75,14 +75,6 @@ public class Task {
 
 	}
 
-	public Task(String taskName, String startDate, String endDate, String priority, String status) {
-		this.taskName = taskName;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.priority = priority;
-		this.status = status;
-	}
-
 	public Long getTaskId() {
 		return taskId;
 	}

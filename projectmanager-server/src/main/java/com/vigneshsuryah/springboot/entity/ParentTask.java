@@ -26,11 +26,6 @@ public class ParentTask {
 
 	}
 
-	public ParentTask(String parentTaskName, String projectId) {
-		this.parentTaskName = parentTaskName;
-		this.projectId = projectId;
-	}
-
 	public Long getParentTaskId() {
 		return parentTaskId;
 	}

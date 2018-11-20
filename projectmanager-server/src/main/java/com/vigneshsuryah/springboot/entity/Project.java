@@ -38,16 +38,6 @@ public class Project {
 
 	}
 
-	public Project(String projectName, String startDate, String endDate, String priority, String status,
-			String managerId) {
-		this.projectName = projectName;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.priority = priority;
-		this.status = status;
-		this.managerId = managerId;
-	}
-
 	public Long getProjectId() {
 		return projectId;
 	}
