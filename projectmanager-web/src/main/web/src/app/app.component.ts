@@ -26,7 +26,14 @@ export class AppComponent implements OnInit{
     jQuery("#update-view-project").addClass('active-nav');
     this.router.navigate(['/updateviewproject']);
   }
-
+  
+  updateViewUser(){
+    this.appService.updatetask = null;
+    jQuery(".navig").removeClass('active-nav');
+    jQuery("#update-view-user").addClass('active-nav');
+    this.router.navigate(['/updateviewuser']);
+  }
+  
   addTask(){
     this.appService.updatetask = null;
     jQuery(".navig").removeClass('active-nav');

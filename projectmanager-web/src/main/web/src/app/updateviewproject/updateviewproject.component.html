@@ -125,6 +125,7 @@
                     <div class="row list-group-item" *ngFor="let item of allProjectList | projectSearchPipe : searchProjectString">
                         <div class="col-lg-9 col-md-12 col-sm-12 grey-back-drop-list">
                             <span class="clear font-italic bold-font">Project: {{item.projectName}}</span><br/><br/>
+                            <div class="table-responsive">
                             <table class="table table-borderless">
                                 <tbody>
                                     <tr>
@@ -147,6 +148,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            </div>
                         </div>
                         <div class="col-lg-3 col-md-12 col-sm-12 grey-back-drop-list">
                                 <div *ngIf="item.status !== 'Completed'">

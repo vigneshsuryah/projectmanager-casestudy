@@ -41,6 +41,14 @@ export class appService {
                         .catch(this.handleErrorNoChange.bind(this));
     }
 
+    updateUsers(inputParam : {}): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(Config.API+ "api/users", inputParam, options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
     getTasks(): Observable<string[]> {
         let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
         let options = new RequestOptions({ headers: headers });

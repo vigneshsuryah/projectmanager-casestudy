@@ -65,9 +65,6 @@ input:checked + .checkboxslider:before {
 .margin-top-date-table{
     margin-top:20px;
 }
-.list-group-item{
-    border: none !important;
-}
 .grey-back-drop-list{
     background-color: #e9ecef;
     float:left;
