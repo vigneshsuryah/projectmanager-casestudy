@@ -97,6 +97,6 @@ select * from parent_tasks;
 select * from tasks;
 
 
-update projects set status = 'In-Progress';
+update tasks set status = 'A';
 
 6	test project add			21	In-Progress	397538
