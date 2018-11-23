@@ -17,9 +17,15 @@ declare var jQuery:any;
 })
 export class UpdateTaskComponent implements OnInit, OnDestroy {
 
-  @ViewChild('instance') instance: NgbTypeahead;
-  focus$ = new Subject<string>();
-  click$ = new Subject<string>();
+  @ViewChild('instanceProject') instanceProject: NgbTypeahead;
+  @ViewChild('instanceParentTask') instanceParentTask: NgbTypeahead;
+  @ViewChild('instanceUser') instanceUser: NgbTypeahead;
+  focusUser$ = new Subject<string>();
+  focusProject$ = new Subject<string>();
+  focusParentTask$ = new Subject<string>();
+  clickUser$ = new Subject<string>();
+  clickProject$ = new Subject<string>();
+  clickParentTask$ = new Subject<string>();
  
   task : any = {};
   hoveredDate: NgbDate;
@@ -27,6 +33,9 @@ export class UpdateTaskComponent implements OnInit, OnDestroy {
   toDate: NgbDate;
   calendarToday: NgbCalendar
   alltaskList : any = [];
+  allProjectList : any = [];
+  allParentTaskList : any = [];
+  allUsersList : any = [];
   errorShow : boolean = false;
   screenLoader : boolean = false;
   errorMessage : string = '';
@@ -34,12 +43,34 @@ export class UpdateTaskComponent implements OnInit, OnDestroy {
   modalBody : string = '';
   flow : string = 'addtask';
   selectedParentTaskObj : any = {};
+  selectedProjectObj : any = {};
+  selectedUserObj : any = {};
+  isParentTaskSelection : boolean = false;
 
   constructor(calendar: NgbCalendar, config: NgbDatepickerConfig, public router: Router, private appService : appService) {
     this.calendarToday = calendar;
     if(this.appService.updatetask !== null){
       this.flow = 'updatetask';
     }
+    this.screenLoader = true;
+    appService.getProjects().subscribe((data :any) => {
+      this.allProjectList = data;
+      this.screenLoader = false;
+    });
+    this.screenLoader = true;
+    appService.getParentTask().subscribe((data :any) => {
+      this.allParentTaskList = data;
+      this.screenLoader = false;
+    });
+    this.screenLoader = true;
+    appService.getUsers().subscribe((data :any) => {
+      this.allUsersList = data;
+      for ( var i = 0; i < this.allUsersList.length; i++)
+      {
+        this.allUsersList[i].fullName = this.allUsersList[i].lastName + ", " + this.allUsersList[i].firstName;
+      }
+      this.screenLoader = false;
+    });
     if(this.flow === 'addtask'){
       this.task = {
         "taskName":"",
@@ -166,29 +197,6 @@ export class UpdateTaskComponent implements OnInit, OnDestroy {
     }
   }
 
-  parentTaskSearch = (text$: Observable<string>) => {
-    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
-    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
-    const inputFocus$ = this.focus$;
-    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-      map(term => (term === '' ? this.alltaskList : this.alltaskList.filter(v => v.taskName.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
-    );
-  }
-
-  selectedParentTaskItem(event: NgbTypeaheadSelectItemEvent): void {
-    event.preventDefault();
-    this.selectedParentTaskObj = event.item;
-    jQuery("#parentTask").val(event.item.taskName);
-    this.task.parentTaskId = event.item.taskId;
-  }
-
-  clearParentId(event){
-    if (event.key !== "Enter") {
-      this.task.parentTaskId = "";
-      this.selectedParentTaskObj = null;
-    }
-  }
-
   constructDateFromService(datestring: string){
     var res = datestring.split("/");
     const date: NgbDateStruct = { day: parseInt(res[0]), month: parseInt(res[1]), year: parseInt(res[2]) };
@@ -240,6 +248,99 @@ export class UpdateTaskComponent implements OnInit, OnDestroy {
   convertDateJsonToString(json: any){
     if(json !== undefined && json !== null){
       return json.day + '/' + json.month + '/' + json.year;
+    }
+  }
+
+  
+  searchProjectPopup(){
+    jQuery("#projectSelectOpener").click();
+  }
+
+  projectSearchAhead = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.clickProject$.pipe(filter(() => !this.instanceProject.isPopupOpen()));
+    const inputFocus$ = this.focusProject$;
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map(term => (term === '' ? this.allProjectList : this.allProjectList.filter(v => v.projectName.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+    );
+  }
+
+  formatterProjectName = (value: any) => value.projectName || '';
+
+  selectedProjectItem(event: NgbTypeaheadSelectItemEvent): void {
+    event.preventDefault();
+    var projectDetails = event.item;
+    this.task.projectName = projectDetails.projectName;
+    jQuery("#projectSelectId").val(this.task.projectName);
+    this.task.projectId = projectDetails.projectId;
+  }
+
+  clearProjectItem(event){
+    if (event.key !== "Enter") {
+      this.task.projectName = "";
+      this.task.projectId = "";
+    }
+  }
+
+  searchParentTaskPopup(){
+    jQuery("#parentTaskSelectOpener").click();
+  }
+
+  parentTaskSearchAhead = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.clickParentTask$.pipe(filter(() => !this.instanceParentTask.isPopupOpen()));
+    const inputFocus$ = this.focusParentTask$;
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map(term => (term === '' ? this.allParentTaskList : this.allParentTaskList.filter(v => v.parentTaskName.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+    );
+  }
+
+  formatterParentTaskName = (value: any) => value.parentTaskName || '';
+
+  selectedParentTaskItem(event: NgbTypeaheadSelectItemEvent): void {
+    event.preventDefault();
+    var parentTaskDetails = event.item;
+    this.selectedParentTaskObj = event.item;
+    this.task.parentTaskName = parentTaskDetails.parentTaskName;
+    //jQuery("#projectSelectId").val(this.task.projectName);
+    this.task.parentTaskName = parentTaskDetails.parentTaskName;
+  }
+
+  clearParentTaskItem(event){
+    if (event.key !== "Enter") {
+      this.task.parentTaskName = "";
+      this.task.parentTaskId = "";
+    }
+  }
+
+  searchUserPopup(){
+    jQuery("#parentTaskSelectOpener").click();
+  }
+
+  userEmployeeSearch = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.clickUser$.pipe(filter(() => !this.instanceUser.isPopupOpen()));
+    const inputFocus$ = this.focusUser$;
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map(term => (term === '' ? this.allUsersList : this.allUsersList.filter(v => v.fullName.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+    );
+  }
+
+  formatterUserSelect = (value: any) => (value.lastName + ", " + value.firstName) || '';
+
+  selectedUserItem(event: NgbTypeaheadSelectItemEvent): void {
+    event.preventDefault();
+    var userDetails = event.item;
+    this.selectedParentTaskObj = event.item;
+    this.task.userName = userDetails.fullName;
+    //jQuery("#projectSelectId").val(this.task.projectName);
+    //this.task.userName = userDetails.fullName;
+  }
+
+  clearUserItem(event){
+    if (event.key !== "Enter") {
+      this.task.userName = "";
+      this.task.userId = "";
     }
   }
 

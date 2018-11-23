@@ -33,6 +33,22 @@ export class appService {
                         .catch(this.handleErrorNoChange.bind(this));
     }
 
+    getParentTask(): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.get(Config.API+ "api/parenttasks", options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
+    updateParentTasks(inputParam : {}): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(Config.API+ "api/parenttasks", inputParam, options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
     updateProjects(inputParam : {}): Observable<string[]> {
         let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
         let options = new RequestOptions({ headers: headers });
