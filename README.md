@@ -1,8 +1,15 @@
 # Project Manager - Final Certification - IIHT - Developer: Vignesh Suryah, Mani
 
-<h1>Please refer "docs" folder for all the screenshots and other details</h1>
-
-<h2>Build and package spring boot and angular6 into a jar file</h2>
+<h2>Please refer "docs" folder for all the screenshots and other details</h2>
+<ul>
+	<li>folder "application_screenshots" : contains application screenshots of all screens. also has the screenshots of responsiveness in the screens.</li>
+	<li>folder "mysql" : table design, sql scripts, and few DML's </li>
+	<li>folder "postman_collection" : contains the api request/response for the end-points designed.</li>
+	<li>folder "junit-emma_coverage" : contains the junit test cases, emma code coverage report and screenshots.</li>
+	<li>folder "jmeter" : contains the screenshots of the jmeter execution on the end-point designed</li>
+	<li>folder "docker" : contains the commands and screenshots of the docker image creation and execution.</li>
+	<li>folder "jenkins" : contains the screenshots of the jenkins pipeline creation and execution. also contains build report</li>
+</ul>
 
 <h4>projectmanager-server - contains the REST end-points for application </h4>
 <h4>projectmanager-web - contains the angular 6 cli code for application</h4>
