@@ -1,0 +1,9 @@
+docker run -p 8090:8090 vs-projectmanager-app-image:latest
+
+docker exec -it <container id> sh
+
+Service: curl http://localhost:8090/api/tasks
+
+UI Home page: curl http://localhost:8090/index.html
+
+

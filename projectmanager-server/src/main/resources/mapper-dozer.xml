@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	
+	<mapping>
+		<class-a>com.vigneshsuryah.springboot.entity.ParentTask</class-a>
+		<class-b>com.vigneshsuryah.springboot.bo.ParentTaskVO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.vigneshsuryah.springboot.entity.User</class-a>
+		<class-b>com.vigneshsuryah.springboot.bo.UserVO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.vigneshsuryah.springboot.entity.Task</class-a>
+		<class-b>com.vigneshsuryah.springboot.bo.TaskVO</class-b>
+	</mapping>
+	
+	<mapping>
+		<class-a>com.vigneshsuryah.springboot.entity.Project</class-a>
+		<class-b>com.vigneshsuryah.springboot.bo.ProjectVO</class-b>
+	</mapping>
+	
+</mappings>

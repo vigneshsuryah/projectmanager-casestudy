@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component'; 
 import { UpdateTaskModule } from './updatetask/updatetask.module'; 
+import { UpdateViewProjectModule } from './updateviewproject/updateviewproject.module';
+import { UpdateViewUserModule } from './updateviewuser/updateviewuser.module';
 import { ViewTaskModule } from './viewtasklist/viewtask.module';
 import { RequestOptions, RequestMethod, Headers } from '@angular/http';
 import { AppRoutingModule } from './app-routing.module'; 
@@ -29,7 +31,7 @@ export class MyOptions extends RequestOptions {
     AppComponent
   ],
   imports: [
-    BrowserModule, AppRoutingModule, UpdateTaskModule, ViewTaskModule, HttpModule, HttpClientModule, NgbModule.forRoot(), NgbTypeaheadModule.forRoot(), CommonutilsModule.forRoot()
+    BrowserModule, AppRoutingModule, UpdateViewProjectModule, UpdateViewUserModule, UpdateTaskModule, ViewTaskModule, HttpModule, HttpClientModule, NgbModule.forRoot(), NgbTypeaheadModule.forRoot(), CommonutilsModule.forRoot()
   ],
   exports: [
     

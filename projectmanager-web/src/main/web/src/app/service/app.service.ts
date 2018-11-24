@@ -17,15 +17,63 @@ export class appService {
 
     } 
 
-    getTasks(): Observable<string[]> {
+    getUsers(): Observable<string[]> {
         let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.get(Config.API+ "api/tasks", options)
+        return this.http.get(Config.API+ "api/users", options)
                         .map((res: Response) => res.json())
                         .catch(this.handleErrorNoChange.bind(this));
     }
 
-    addTask(inputParam : {}): Observable<string[]> {
+    getProjects(): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.get(Config.API+ "api/projects", options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
+    getParentTask(): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.get(Config.API+ "api/parenttasks", options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
+    getParentTaskForProjectId(projectId): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.get(Config.API+ "api/parenttasks/projects/" + projectId, options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
+    updateParentTasks(inputParam : {}): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(Config.API+ "api/parenttasks", inputParam, options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
+    updateProjects(inputParam : {}): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(Config.API+ "api/projects", inputParam, options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
+    updateUsers(inputParam : {}): Observable<string[]> {
+        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(Config.API+ "api/users", inputParam, options)
+                        .map((res: Response) => res.json())
+                        .catch(this.handleErrorNoChange.bind(this));
+    }
+
+    updateTasks(inputParam : {}): Observable<string[]> {
         let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
         let options = new RequestOptions({ headers: headers });
         return this.http.post(Config.API+ "api/tasks", inputParam, options)
@@ -33,18 +81,10 @@ export class appService {
                         .catch(this.handleErrorNoChange.bind(this));
     }
 
-    editTask(inputParam : {}, taskId : string): Observable<string[]> {
+    getTasks(): Observable<string[]> {
         let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.put(Config.API+ "api/tasks/" + taskId, inputParam, options)
-                        .map((res: Response) => res.json())
-                        .catch(this.handleErrorNoChange.bind(this));
-    }
-
-    deleteTask(taskId : string): Observable<string[]> {
-        let headers = new Headers({ 'Accept': '*/*', 'Content-Type':'application/json' });
-        let options = new RequestOptions({ headers: headers });
-        return this.http.delete(Config.API+ "api/tasks/"+ taskId, options)
+        return this.http.get(Config.API+ "api/tasks", options)
                         .map((res: Response) => res.json())
                         .catch(this.handleErrorNoChange.bind(this));
     }

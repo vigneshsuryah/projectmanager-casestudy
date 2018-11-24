@@ -1,0 +1,329 @@
+{
+	"id": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+	"name": "ProjectManager-PostmanCollecttion",
+	"description": "",
+	"order": [
+		"d3a2b4fc-ce28-909d-0526-5e6ac58a7076",
+		"440845b6-d0a5-0ca3-dd9f-74803fbcefa6",
+		"6f905ed2-51c7-4c7a-0dac-ee8873a0c9bc",
+		"fce91b86-7bc3-7eed-c749-a35790a05721",
+		"8a978049-b668-d9d5-bb43-6c7894fc7da2",
+		"623b206e-6bd8-a746-d153-c4f7f3fe7411",
+		"c60c07e1-da4a-f07a-e012-a89ec67dde62",
+		"7dfbfe08-a5c2-2297-1302-1015339c298d",
+		"53324dcc-93be-8e2a-7eee-e9aa07f5864a",
+		"b37f0c02-adc6-db59-7773-882f4cd6c99a",
+		"3936418d-9571-8057-cbe0-d66d6f4fa41a"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 0,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "3936418d-9571-8057-cbe0-d66d6f4fa41a",
+			"headers": "Accept: */*\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "*/*",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8090/api/users",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1542381904212,
+			"name": "Add/Edit User",
+			"description": "",
+			"collectionId": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+			"responses": [],
+			"rawModeData": "{\n    \"employeeId\": \"287432\",\n    \"firstName\": \"Vignesh Suryah\",\n    \"lastName\": \"M\",\n    \"status\": \"A\"\n}"
+		},
+		{
+			"id": "440845b6-d0a5-0ca3-dd9f-74803fbcefa6",
+			"headers": "Accept: */*\nContent-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "*/*",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8090/api/tasks",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1542385162545,
+			"name": "Add/Edit Task",
+			"description": "",
+			"collectionId": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+			"responses": [],
+			"rawModeData": "{\r\n\t\"taskId\" : 11,\r\n    \"taskName\": \"add task 1\",\r\n    \"startDate\": \"07/10/2018\",\r\n    \"endDate\": \"10/10/2018\",\r\n    \"priority\": \"28\",\r\n    \"status\": \"I\",\r\n    \"parentTask\": {\r\n        \"parentTaskId\": 1,\r\n        \"parentTaskName\": \"pt create screens 1\",\r\n        \"projectId\": \"1\"\r\n    },\r\n    \"employeeDetails\": {\r\n        \"employeeId\": \"474325\",\r\n        \"firstName\": \"Vengatesh\",\r\n        \"lastName\": \"Nanjappan\",\r\n        \"status\": \"A\"\r\n    },\r\n    \"projectDetails\": {\r\n        \"projectId\": 1,\r\n        \"projectName\": \"SGFO\",\r\n        \"startDate\": \"11/20/2018\",\r\n        \"endDate\": \"11/30/2018\",\r\n        \"priority\": \"15\",\r\n        \"status\": \"A\",\r\n        \"managerId\": \"397538\",\r\n        \"noOfTasks\": null\r\n    }\r\n}"
+		},
+		{
+			"id": "53324dcc-93be-8e2a-7eee-e9aa07f5864a",
+			"name": "Edit Project",
+			"description": "",
+			"collectionId": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+			"method": "POST",
+			"headers": "Accept: */*\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n\t\"projectId\": 1,\r\n    \"projectName\": \"SGFO\",\r\n    \"startDate\": \"11/20/2018\",\r\n    \"endDate\": \"11/30/2018\",\r\n    \"priority\": \"15\",\r\n    \"status\": \"A\",\r\n    \"managerId\": \"287431\"\r\n}",
+			"url": "http://localhost:8090/api/projects",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "*/*"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29"
+		},
+		{
+			"id": "623b206e-6bd8-a746-d153-c4f7f3fe7411",
+			"name": "Edit Parent Task",
+			"description": "",
+			"collectionId": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+			"method": "POST",
+			"headers": "Accept: */*\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\n\t\"parentTaskId\": 6,\n    \"parentTaskName\": \"pt parent task addition 1 edited\",\n    \"projectId\": \"3\"\n}",
+			"url": "http://localhost:8090/api/parenttasks",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "*/*"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29"
+		},
+		{
+			"id": "6f905ed2-51c7-4c7a-0dac-ee8873a0c9bc",
+			"name": "Get All Parent Tasks",
+			"description": "",
+			"collectionId": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+			"method": "GET",
+			"headers": "Accept: */*\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "",
+			"url": "http://localhost:8090/api/parenttasks",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "*/*"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29"
+		},
+		{
+			"id": "7dfbfe08-a5c2-2297-1302-1015339c298d",
+			"name": "Add Project",
+			"description": "",
+			"collectionId": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+			"method": "POST",
+			"headers": "Accept: */*\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\r\n    \"projectName\": \"new project add check 1\",\r\n    \"startDate\": \"11/20/2018\",\r\n    \"endDate\": \"11/30/2018\",\r\n    \"priority\": \"29\",\r\n    \"status\": \"A\",\r\n    \"managerId\": \"287431\"\r\n}",
+			"url": "http://localhost:8090/api/projects",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "*/*"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29"
+		},
+		{
+			"id": "8a978049-b668-d9d5-bb43-6c7894fc7da2",
+			"name": "Add Parent Task",
+			"description": "",
+			"collectionId": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+			"method": "POST",
+			"headers": "Accept: */*\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "{\n    \"parentTaskName\": \"pt parent task addition 1\",\n    \"projectId\": \"5\"\n}",
+			"url": "http://localhost:8090/api/parenttasks",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "*/*"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29"
+		},
+		{
+			"id": "b37f0c02-adc6-db59-7773-882f4cd6c99a",
+			"name": "Get All Users",
+			"description": "",
+			"collectionId": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+			"method": "GET",
+			"headers": "Accept: */*\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "",
+			"url": "http://localhost:8090/api/users",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "*/*"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29"
+		},
+		{
+			"id": "c60c07e1-da4a-f07a-e012-a89ec67dde62",
+			"name": "Get All Projects",
+			"description": "",
+			"collectionId": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+			"method": "GET",
+			"headers": "Accept: */*\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "",
+			"url": "http://localhost:8090/api/projects",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "*/*"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29"
+		},
+		{
+			"id": "d3a2b4fc-ce28-909d-0526-5e6ac58a7076",
+			"name": "Get All Tasks",
+			"description": "",
+			"collectionId": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+			"method": "GET",
+			"headers": "Accept: */*\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "",
+			"url": "http://localhost:8090/api/tasks",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "*/*"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29"
+		},
+		{
+			"id": "fce91b86-7bc3-7eed-c749-a35790a05721",
+			"name": "Get Parent Tasks By Project ID",
+			"description": "",
+			"collectionId": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29",
+			"method": "GET",
+			"headers": "Accept: */*\nContent-Type: application/json",
+			"dataMode": "raw",
+			"data": [],
+			"rawModeData": "",
+			"url": "http://localhost:8090/api/parenttasks/projects/3",
+			"responses": [],
+			"pathVariableData": [],
+			"queryParams": [],
+			"headerData": [
+				{
+					"key": "Accept",
+					"value": "*/*"
+				},
+				{
+					"key": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"collection_id": "b16b6fc6-ce83-6b5e-32ae-b51c0f983e29"
+		}
+	]
+}

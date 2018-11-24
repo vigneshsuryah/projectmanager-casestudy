@@ -268,3 +268,7 @@
           background-color:rgb(255,255,255);
       }
   }
+
+  .routerBorder{
+    border:1px solid #dee2e6!important;
+  }

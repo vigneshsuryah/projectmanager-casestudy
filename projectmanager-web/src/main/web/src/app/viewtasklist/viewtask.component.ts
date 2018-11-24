@@ -16,19 +16,34 @@ declare var jQuery:any;
 })
 export class ViewTaskComponent implements OnInit, OnDestroy {
 
-  calendarToday: NgbCalendar
+  @ViewChild('instance') instance: NgbTypeahead;
+  focus$ = new Subject<string>();
+  click$ = new Subject<string>(); 
+
   alltaskList : any = [];
+  allProjectList : any = [];
+  alltaskMasterList : any = [];
   task : any = {};
   screenLoader : boolean = false;
   modalHeading : string = '';
   modalBody : string = '';
+  project : any = {
+    "projectName":"",
+    "projectId":""
+  }
 
-  constructor(calendar: NgbCalendar, config: NgbDatepickerConfig, public router: Router, public appService : appService) {
+  constructor(public router: Router, public appService : appService) {
 
     this.screenLoader = true;
     this.appService.updatetask = null;
     appService.getTasks().subscribe((data :any) => {
       this.alltaskList = data;
+      this.alltaskMasterList = data;
+      this.screenLoader = false;
+    });
+
+    appService.getProjects().subscribe((data :any) => {
+      this.allProjectList = data;
       this.screenLoader = false;
     });
   }
@@ -41,57 +56,36 @@ export class ViewTaskComponent implements OnInit, OnDestroy {
     
   }
 
-  onDateSelectPicker(date: NgbDate, field: string){
-    if(field === 'start'){
-      this.task.startDate = this.convertDateJsonToString(this.task.startDate);
-      setTimeout(()=>{
-        jQuery("#startDate").val(this.task.startDate);
-      },50);
-    }else if(field === 'end'){
-      this.task.endDate = this.convertDateJsonToString(this.task.endDate);
-      setTimeout(()=>{
-        jQuery("#endDate").val(this.task.endDate);
-      },50);
-    }
-  }
-
-  convertDateJsonToString(json: any){
-    if(json !== undefined && json !== null){
-      return json.day + '/' + json.month + '/' + json.year;
-    }
-  }
-
   getParentTaskName(item: any){
     var parentTaskName = '';
     if(item !== null && item !== undefined){
       if(item.parentTask !== null && item.parentTask !== undefined){
-        parentTaskName = item.parentTask.taskName;
+        parentTaskName = item.parentTask.parentTaskName;
       }
     }
     return parentTaskName;
   }
 
-  resetButton(){
-    this.task = {
-      "taskName":"",
-      "parentTaskName":"",
-      "priorityFrom":"",
-      "priorityTo":"",
-      "startDate":"",
-      "endDate":""
-    };
-    jQuery("#startDate").val("");
-    jQuery("#endDate").val("");
-  }
-
-  endTask(taskId: string){
+  endTask(task: any){
     this.screenLoader = true;
-    this.appService.deleteTask(taskId).subscribe(
+    task.status = 'C';
+    this.appService.updateTasks(task).subscribe(
       (data: any) => {
         this.screenLoader = false;
-        this.modalHeading = 'Yeah :-)';
-        this.modalBody = 'Task Ended Successfully';
-        document.getElementById("endTaskModalOpener").click();
+        if(data){
+          this.modalHeading = 'Yeah :-)';
+          this.modalBody = 'Task Ended Successfully';
+          document.getElementById("endTaskModalOpener").click();
+        }else{
+          this.modalHeading = 'Oh No !!!';
+          this.modalBody = 'Unexpected error occured during End Task. Please try after some time.';
+          document.getElementById("endTaskModalOpener").click();
+        }        
+        this.appService.getTasks().subscribe((data :any) => {
+          this.alltaskMasterList = data;
+          this.populateRequiredTaskList();
+          this.screenLoader = false;
+        });
       },
       (err: any) => {
           this.screenLoader = false;
@@ -102,21 +96,86 @@ export class ViewTaskComponent implements OnInit, OnDestroy {
       );
   }
 
-  backToViewTask(){
-    this.screenLoader = true;
-    this.appService.getTasks().subscribe(
-      (data: any) => {
-        this.alltaskList = data;
-        this.screenLoader = false;
-      },
-      (err: any) => {
-          this.screenLoader = false;     
+  populateRequiredTaskList(){
+    var projectId = this.project.projectId;
+    if(projectId !== undefined && projectId !== null && projectId !== ''){
+      this.alltaskList = [];
+      for ( var i = 0; i < this.alltaskMasterList.length; i++)
+      {
+        if(this.alltaskMasterList[i].projectDetails !== null && this.alltaskMasterList[i].projectDetails.projectId === projectId){
+          this.alltaskList.push(this.alltaskMasterList[i]);
         }
-      );
+      }
+    }else{
+      this.alltaskList = this.alltaskMasterList;
+    }
   }
 
   editTask(task: any){
     this.appService.updatetask = task;
     this.router.navigate(['/edittask']);
   }
+
+  searchProjectPopup(){
+    jQuery("#projectSelectOpener").click();
+  }
+
+  projectSearchAhead = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
+    const inputFocus$ = this.focus$;
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map(term => (term === '' ? this.allProjectList : this.allProjectList.filter(v => v.projectName.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+    );
+  }
+
+  formatter = (value: any) => value.projectName || '';
+
+  selectedProjectItem(event: NgbTypeaheadSelectItemEvent): void {
+    event.preventDefault();
+    var projectDetails = event.item;
+    this.project.projectName = projectDetails.projectName;
+    jQuery("#projectSelectId").val(this.project.projectName);
+    this.project.projectId = projectDetails.projectId;
+    this.populateRequiredTaskList();
+  }
+
+  clearProjectItem(event){
+    if (event.key !== "Enter") {
+      this.project.projectName = "";
+      this.project.projectId = "";
+      this.alltaskList = this.alltaskMasterList;
+    }
+  }
+
+  /* sort functions*/
+
+  sortByStartDate(){
+    this.alltaskList.sort((a, b) => {
+      return new Date(a.startDate).getTime() - new Date(b.startDate).getTime();
+    });
+  }
+
+  sortByEndDate(){
+    this.alltaskList.sort((a, b) => {
+      return new Date(a.endDate).getTime() - new Date(b.endDate).getTime();
+    });
+  }
+
+  sortByPriority(){
+    this.alltaskList.sort((a, b) => {
+      return parseInt(a.priority) - parseInt(b.priority);
+    });
+  }
+
+  sortByStatus(){
+    this.alltaskList.sort((a, b) => {
+      var titleA = a.status.toLowerCase(), titleB = b.status.toLowerCase();
+      if (titleA < titleB) return -1; 
+      if (titleA > titleB) return 1;
+      return 0;
+    });
+  }
+
+  /* sort functions*/
 }
