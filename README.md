@@ -1,4 +1,7 @@
 # Project Manager - Final Certification - IIHT - Developer: Vignesh Suryah, Mani
+
+<h1>Please refer "docs" folder for all the screenshots and other details</h1>
+
 <h2>Build and package spring boot and angular6 into a jar file</h2>
 
 <h4>projectmanager-server - contains the REST end-points for application </h4>
