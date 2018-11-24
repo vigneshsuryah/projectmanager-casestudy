@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ProjectManagerControllerTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">java (24 Nov, 2018 3:18:05 PM)</a> &gt; <a href="../../index.html" class="el_group">projectmanager-server</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">com.vigneshsuryah.springboot.controller</a> &gt; <span class="el_source">ProjectManagerControllerTest.java</span></div><h1>ProjectManagerControllerTest.java</h1><pre class="source lang-java linenums">package com.vigneshsuryah.springboot.controller;
+
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vigneshsuryah.springboot.bo.ParentTaskVO;
+import com.vigneshsuryah.springboot.bo.ProjectVO;
+import com.vigneshsuryah.springboot.bo.TaskVO;
+import com.vigneshsuryah.springboot.bo.UserVO;
+import com.vigneshsuryah.springboot.controller.ProjectManagerController;
+import com.vigneshsuryah.springboot.service.ProjectManagerService;
+
+@RunWith(SpringRunner.class)
+<span class="fc" id="L33">public class ProjectManagerControllerTest {</span>
+
+	private ProjectManagerController projectManagerController;
+	private ProjectManagerService projectManagerService;
+<span class="fc" id="L37">	ObjectMapper mapper = new ObjectMapper();  </span>
+	
+	@Before
+	public void setUp() throws Exception {
+<span class="fc" id="L41">		projectManagerService = Mockito.mock(ProjectManagerService.class);</span>
+<span class="fc" id="L42">		projectManagerController = new ProjectManagerController(projectManagerService);</span>
+<span class="fc" id="L43">	}</span>
+
+	@After
+	public void tearDown() throws Exception {
+		
+<span class="fc" id="L48">	}</span>
+	
+	@Test
+	public void testHome() {
+<span class="fc" id="L52">		String testhome = projectManagerController.home();</span>
+<span class="fc" id="L53">		Assert.assertEquals(testhome, &quot;forward:/index.html&quot;);</span>
+<span class="fc" id="L54">	}</span>
+	
+	@Test
+	public void testTest() {
+<span class="fc" id="L58">		String testhome = projectManagerController.testhome();</span>
+<span class="fc" id="L59">		Assert.assertEquals(testhome, &quot;Project Manager App - Creator: Mani, Vignesh Suryah&quot;);</span>
+<span class="fc" id="L60">	}</span>
+	
+	
+	@Test
+	public void testGetTasks() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L65">		TypeReference&lt;List&lt;TaskVO&gt;&gt; mapType = new TypeReference&lt;List&lt;TaskVO&gt;&gt;() {};</span>
+<span class="fc" id="L66">		List&lt;TaskVO&gt; allTasks = null;</span>
+<span class="fc" id="L67">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L68">		File file = new File(classLoader.getResource(&quot;tasks.json&quot;).getFile());</span>
+<span class="fc" id="L69">		allTasks = mapper.readValue(file, mapType);</span>
+<span class="fc" id="L70">		when(projectManagerService.retriveTasks()).thenReturn(allTasks);</span>
+<span class="fc" id="L71">		List&lt;TaskVO&gt; allTasksList = projectManagerController.getTasks();</span>
+<span class="fc" id="L72">		Assert.assertNotNull(allTasksList);</span>
+<span class="fc" id="L73">		verify(projectManagerService,times(1)).retriveTasks();</span>
+<span class="fc" id="L74">		verifyNoMoreInteractions(projectManagerService);</span>
+<span class="fc" id="L75">	}</span>
+	
+	@Test
+	public void testUpdateTask() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L79">		TaskVO task = null;</span>
+<span class="fc" id="L80">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L81">		File file = new File(classLoader.getResource(&quot;task.json&quot;).getFile());</span>
+<span class="fc" id="L82">		task = mapper.readValue(file, TaskVO.class);</span>
+<span class="fc" id="L83">		doNothing().when(projectManagerService).updateTask(task);</span>
+<span class="fc" id="L84">		projectManagerController.updateTask(task);</span>
+<span class="fc" id="L85">		verify(projectManagerService,times(1)).updateTask(task);</span>
+<span class="fc" id="L86">		verifyNoMoreInteractions(projectManagerService);</span>
+<span class="fc" id="L87">	}</span>
+	
+	
+	@Test
+	public void testGetAllParentTasks() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L92">		TypeReference&lt;List&lt;ParentTaskVO&gt;&gt; mapType = new TypeReference&lt;List&lt;ParentTaskVO&gt;&gt;() {};</span>
+<span class="fc" id="L93">		List&lt;ParentTaskVO&gt; allParentTasks = null;</span>
+<span class="fc" id="L94">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L95">		File file = new File(classLoader.getResource(&quot;parenttasks.json&quot;).getFile());</span>
+<span class="fc" id="L96">		allParentTasks = mapper.readValue(file, mapType);</span>
+<span class="fc" id="L97">		when(projectManagerService.retriveParentTasks()).thenReturn(allParentTasks);</span>
+<span class="fc" id="L98">		List&lt;ParentTaskVO&gt; allParentTasksList = projectManagerController.getAllParentTasks();</span>
+<span class="fc" id="L99">		Assert.assertNotNull(allParentTasksList);</span>
+<span class="fc" id="L100">		verify(projectManagerService,times(1)).retriveParentTasks();</span>
+<span class="fc" id="L101">		verifyNoMoreInteractions(projectManagerService);</span>
+<span class="fc" id="L102">	}</span>
+	
+	
+	@Test
+	public void testGetParentTasksForProjectId() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L107">		TypeReference&lt;List&lt;ParentTaskVO&gt;&gt; mapType = new TypeReference&lt;List&lt;ParentTaskVO&gt;&gt;() {};</span>
+<span class="fc" id="L108">		List&lt;ParentTaskVO&gt; allParentTasks = null;</span>
+<span class="fc" id="L109">		String projectId = &quot;3&quot;;</span>
+<span class="fc" id="L110">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L111">		File file = new File(classLoader.getResource(&quot;parenttaskbyprojectid.json&quot;).getFile());</span>
+<span class="fc" id="L112">		allParentTasks = mapper.readValue(file, mapType);</span>
+<span class="fc" id="L113">		when(projectManagerService.retriveParentTasksForProjectId(projectId)).thenReturn(allParentTasks);</span>
+<span class="fc" id="L114">		List&lt;ParentTaskVO&gt; allParentTasksList = projectManagerController.getParentTasksForProjectId(projectId);</span>
+<span class="fc" id="L115">		Assert.assertNotNull(allParentTasksList);</span>
+<span class="fc" id="L116">		verify(projectManagerService,times(1)).retriveParentTasksForProjectId(projectId);</span>
+<span class="fc" id="L117">		verifyNoMoreInteractions(projectManagerService);</span>
+<span class="fc" id="L118">	}</span>
+	
+	@Test
+	public void testUpdateParentTask() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L122">		ParentTaskVO parenttask = null;</span>
+<span class="fc" id="L123">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L124">		File file = new File(classLoader.getResource(&quot;parenttask.json&quot;).getFile());</span>
+<span class="fc" id="L125">		parenttask = mapper.readValue(file, ParentTaskVO.class);</span>
+<span class="fc" id="L126">		doNothing().when(projectManagerService).updateParentTask(parenttask);</span>
+<span class="fc" id="L127">		projectManagerController.updateParentTask(parenttask);</span>
+<span class="fc" id="L128">		verify(projectManagerService,times(1)).updateParentTask(parenttask);</span>
+<span class="fc" id="L129">		verifyNoMoreInteractions(projectManagerService);</span>
+<span class="fc" id="L130">	}</span>
+	
+	
+
+	@Test
+	public void testGetProjects() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L136">		TypeReference&lt;List&lt;ProjectVO&gt;&gt; mapType = new TypeReference&lt;List&lt;ProjectVO&gt;&gt;() {};</span>
+<span class="fc" id="L137">		List&lt;ProjectVO&gt; allProjects = null;</span>
+<span class="fc" id="L138">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L139">		File file = new File(classLoader.getResource(&quot;projects.json&quot;).getFile());</span>
+<span class="fc" id="L140">		allProjects = mapper.readValue(file, mapType);</span>
+<span class="fc" id="L141">		when(projectManagerService.retriveProjects()).thenReturn(allProjects);</span>
+<span class="fc" id="L142">		List&lt;ProjectVO&gt; allProjectsList = projectManagerController.getProjects();</span>
+<span class="fc" id="L143">		Assert.assertNotNull(allProjectsList);</span>
+<span class="fc" id="L144">		verify(projectManagerService,times(1)).retriveProjects();</span>
+<span class="fc" id="L145">		verifyNoMoreInteractions(projectManagerService);</span>
+<span class="fc" id="L146">	}</span>
+	
+	@Test
+	public void testUpdateProject() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L150">		ProjectVO project = null;</span>
+<span class="fc" id="L151">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L152">		File file = new File(classLoader.getResource(&quot;project.json&quot;).getFile());</span>
+<span class="fc" id="L153">		project = mapper.readValue(file, ProjectVO.class);</span>
+<span class="fc" id="L154">		doNothing().when(projectManagerService).updateProject(project);</span>
+<span class="fc" id="L155">		projectManagerController.updateProject(project);</span>
+<span class="fc" id="L156">		verify(projectManagerService,times(1)).updateProject(project);</span>
+<span class="fc" id="L157">		verifyNoMoreInteractions(projectManagerService);</span>
+<span class="fc" id="L158">	}</span>
+	
+	
+	@Test
+	public void testGetUsers() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L163">		TypeReference&lt;List&lt;UserVO&gt;&gt; mapType = new TypeReference&lt;List&lt;UserVO&gt;&gt;() {};</span>
+<span class="fc" id="L164">		List&lt;UserVO&gt; allUsers = null;</span>
+<span class="fc" id="L165">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L166">		File file = new File(classLoader.getResource(&quot;users.json&quot;).getFile());</span>
+<span class="fc" id="L167">		allUsers = mapper.readValue(file, mapType);</span>
+<span class="fc" id="L168">		when(projectManagerService.retriveUsers()).thenReturn(allUsers);</span>
+<span class="fc" id="L169">		List&lt;UserVO&gt; allUsersList = projectManagerController.getUsers();</span>
+<span class="fc" id="L170">		Assert.assertNotNull(allUsersList);</span>
+<span class="fc" id="L171">		verify(projectManagerService,times(1)).retriveUsers();</span>
+<span class="fc" id="L172">		verifyNoMoreInteractions(projectManagerService);</span>
+<span class="fc" id="L173">	}</span>
+	
+	@Test
+	public void testUpdateUsers() throws JsonParseException, JsonMappingException, IOException {
+<span class="fc" id="L177">		UserVO user = null;</span>
+<span class="fc" id="L178">		ClassLoader classLoader = getClass().getClassLoader();</span>
+<span class="fc" id="L179">		File file = new File(classLoader.getResource(&quot;user.json&quot;).getFile());</span>
+<span class="fc" id="L180">		user = mapper.readValue(file, UserVO.class);</span>
+<span class="fc" id="L181">		doNothing().when(projectManagerService).updateUser(user);</span>
+<span class="fc" id="L182">		projectManagerController.updateUsers(user);</span>
+<span class="fc" id="L183">		verify(projectManagerService,times(1)).updateUser(user);</span>
+<span class="fc" id="L184">		verifyNoMoreInteractions(projectManagerService);</span>
+<span class="fc" id="L185">	}</span>
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span>java (24 Nov, 2018 3:18:05 PM)</div></body></html>
