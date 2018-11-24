@@ -80,16 +80,16 @@ insert into parent_tasks (parent_task_name, project_id) values('pt create test c
 insert into parent_tasks (parent_task_name, project_id) values('pt create jmeter setup',1);
 insert into parent_tasks (parent_task_name, project_id) values('pt dry run the code',5);
 
-insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('generate report of tasks',1,'07/10/2018','10/10/2018','15','A','474325',1);
-insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('complete the go perform',2,'10/10/2018','12/10/2018','30','A','456206',2);
-insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('sent artifacts email',3,'11/10/2018','16/10/2018','1','A','485083',3);
-insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('complete coding of jira task assigned',null,'13/10/2018','23/10/2018','0','A','287431',4);
-insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('perform unit testing',null,'09/10/2018','19/10/2018','26','A','456206',1);
-insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('fill the TDD document on the design change',5,'10/10/2018','20/10/2018','17','A','397538',5);
-insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('create db design',4,'15/10/2018','19/10/2018','15','A','463657',2);
-insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('create angular project structure',1,'16/10/2018','21/10/2018','16','A','287431',5);
-insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('perform code review',2,'17/10/2018','26/10/2018','19','A','397538',3);
-insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('help peer resource on angular',null,'20/10/2018','24/10/2018','1','A','463657',3);
+insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('generate report of tasks',1,'11/01/2018','11/10/2018','15','A','474325',1);
+insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('complete the go perform',2,'11/11/2018','11/12/2018','30','A','456206',2);
+insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('sent artifacts email',3,'11/11/2018','11/13/2018','1','A','485083',3);
+insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('complete coding of jira task assigned',null,'11/15/2018','11/18/2018','0','A','287431',4);
+insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('perform unit testing',null,'11/17/2018','11/19/2018','26','A','456206',1);
+insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('fill the TDD document on the design change',5,'11/14/2018','11/19/2018','17','A','397538',5);
+insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('create db design',4,'11/17/2018','11/19/2018','15','A','463657',2);
+insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('create angular project structure',1,'11/11/2018','11/19/2018','16','A','287431',5);
+insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('perform code review',2,'11/11/2018','11/19/2018','19','A','397538',3);
+insert into tasks (task_name, parent_task_id, start_date, end_date, priority, status, employee_id, project_id) values('help peer resource on angular',null,'11/12/2018','11/19/2018','1','A','463657',3);
 
 select * from users;
 select * from projects;
@@ -98,5 +98,3 @@ select * from tasks;
 
 
 update tasks set status = 'A';
-
-6	test project add			21	In-Progress	397538

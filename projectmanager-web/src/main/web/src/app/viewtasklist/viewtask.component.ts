@@ -72,9 +72,15 @@ export class ViewTaskComponent implements OnInit, OnDestroy {
     this.appService.updateTasks(task).subscribe(
       (data: any) => {
         this.screenLoader = false;
-        this.modalHeading = 'Yeah :-)';
-        this.modalBody = 'Task Ended Successfully';
-        document.getElementById("endTaskModalOpener").click();
+        if(data){
+          this.modalHeading = 'Yeah :-)';
+          this.modalBody = 'Task Ended Successfully';
+          document.getElementById("endTaskModalOpener").click();
+        }else{
+          this.modalHeading = 'Oh No !!!';
+          this.modalBody = 'Unexpected error occured during End Task. Please try after some time.';
+          document.getElementById("endTaskModalOpener").click();
+        }        
         this.appService.getTasks().subscribe((data :any) => {
           this.alltaskMasterList = data;
           this.populateRequiredTaskList();

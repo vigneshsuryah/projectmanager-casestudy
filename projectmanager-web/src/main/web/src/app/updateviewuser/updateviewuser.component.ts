@@ -78,15 +78,21 @@ export class UpdateViewUserComponent implements OnInit, OnDestroy {
               this.allUsersMasterList = data;
               this.screenLoader = false;
             });
-            this.modalHeading = 'Yeah :-)';
-            if(this.flow === 'adduser'){
-              this.modalBody = 'User Added Successfully';
+            if(data){
+              this.modalHeading = 'Yeah :-)';
+              if(this.flow === 'adduser'){
+                this.modalBody = 'User Added Successfully';
+              }
+              if(this.flow === 'updateuser'){
+                this.modalBody = 'User Edited Successfully';
+              }
+              document.getElementById("submitModalOpener").click();
+              this.ngOnInit();
+            }else{
+              this.modalHeading = 'Oh No !!!';
+              this.modalBody = 'Unexpected error occured during Add Task. Please try after some time.';
+              document.getElementById("submitModalOpener").click(); 
             }
-            if(this.flow === 'updateuser'){
-              this.modalBody = 'User Edited Successfully';
-            }
-            document.getElementById("submitModalOpener").click();
-            this.ngOnInit();
           }else{
             this.modalHeading = 'Oh No !!!';
             this.modalBody = 'Unexpected error occured during Add Task. Please try after some time.';

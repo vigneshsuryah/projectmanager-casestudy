@@ -141,10 +141,15 @@ export class UpdateViewProjectComponent implements OnInit, OnDestroy {
               this.allProjectList = data;
               this.screenLoader = false;
             });
-
-            this.modalHeading = 'Yeah :-)';
-            this.modalBody = 'Project Added Successfully';
-            document.getElementById("submitModalOpener").click();
+            if(data){
+              this.modalHeading = 'Yeah :-)';
+              this.modalBody = 'Project Added Successfully';
+              document.getElementById("submitModalOpener").click();
+            }else{
+              this.modalHeading = 'Oh No !!!';
+              this.modalBody = 'Unexpected error occured during Add Task. Please try after some time.';
+              document.getElementById("submitModalOpener").click(); 
+            }
           }else{
             this.modalHeading = 'Oh No !!!';
             this.modalBody = 'Unexpected error occured during Add Task. Please try after some time.';
@@ -188,10 +193,15 @@ export class UpdateViewProjectComponent implements OnInit, OnDestroy {
               this.allProjectList = data;
               this.screenLoader = false;
             });
-
-            this.modalHeading = 'Yeah :-)';
-            this.modalBody = 'Project Updated Successfully';
-            document.getElementById("submitModalOpener").click();
+            if(data){
+              this.modalHeading = 'Yeah :-)';
+              this.modalBody = 'Project Updated Successfully';
+              document.getElementById("submitModalOpener").click();
+            }else{
+              this.modalHeading = 'Oh No !!!';
+              this.modalBody = 'Unexpected error occured during Add Task. Please try after some time.';
+              document.getElementById("submitModalOpener").click(); 
+            }
           }else{
             this.modalHeading = 'Oh No !!!';
             this.modalBody = 'Unexpected error occured during Add Task. Please try after some time.';
@@ -277,9 +287,15 @@ export class UpdateViewProjectComponent implements OnInit, OnDestroy {
     this.appService.updateProjects(project).subscribe(
       (data: any) => {
         this.screenLoader = false;
-        this.modalHeading = 'Yeah :-)';
-        this.modalBody = 'Project Suspended Successfully';
-        document.getElementById("submitModalOpener").click();
+        if(data){
+          this.modalHeading = 'Yeah :-)';
+          this.modalBody = 'Project Suspended Successfully';
+          document.getElementById("submitModalOpener").click();
+        }else{
+          this.modalHeading = 'Oh No !!!';
+          this.modalBody = 'Unexpected error occured during End Task. Please try after some time.';
+          document.getElementById("submitModalOpener").click(); 
+        }
         this.appService.getProjects().subscribe((data :any) => {
           this.allProjectMasterList = data;
           this.allProjectList = data;

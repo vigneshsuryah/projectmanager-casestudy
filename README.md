@@ -1,4 +1,4 @@
-# Task Manager Casestudy IIHT - Author: Vignesh Suryah
+# Project Manager Final Certification IIHT - Author: Vignesh Suryah
 <h2>Build and package spring boot and angular6 into a jar file</h2>
 
 <h4>projectmanager-server - contains the REST end-points for application </h4>
@@ -19,7 +19,7 @@ Repo: https://github.com/vigneshsuryah/projectmanager-casestudy.git
 </ul>	
 
 <ul>
-<li>To check whether application loaded correctly: curl http://localhost:8090/hometest</li>
+<li>To check whether application loaded correctly: curl http://localhost:8090/test</li>
 <li>Service: curl http://localhost:8090/api/tasks</li>
 <li>UI Home page: curl http://localhost:8090/index.html</li>
 </ul>	

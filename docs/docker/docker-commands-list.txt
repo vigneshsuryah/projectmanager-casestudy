@@ -1,6 +1,6 @@
-dockerx run -p 8090:8085 vs-projectmanager-app-image:latest
+docker run -p 8090:8090 vs-projectmanager-app-image:latest
 
-dockerx exec -it <container id> sh
+docker exec -it <container id> sh
 
 Service: curl http://localhost:8090/api/tasks
 
